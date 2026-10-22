@@ -1,0 +1,11 @@
+node_modules/
+dist/
+reports/
+test-results/
+playwright-report/
+logs/
+downloads/
+.auth/
+.env
+.env.*
+!.env.example

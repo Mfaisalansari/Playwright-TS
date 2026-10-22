@@ -1,0 +1,8 @@
+{
+  "welcome":        { "strategy": "role", "value": "heading", "options": { "level": 1 } },
+  "logout":         { "strategy": "role", "value": "link", "options": { "name": "Logout" } },
+  "goRegistration": { "strategy": "id", "value": "goRegistration" },
+  "goEmployees":    { "strategy": "id", "value": "goEmployees" },
+  "openPolicies":   { "strategy": "id", "value": "openPolicies" },
+  "navLink":        { "strategy": "css", "value": "header a[data-nav='{page}']", "description": "Header nav link by page name" }
+}

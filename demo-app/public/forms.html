@@ -1,0 +1,138 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Registration Form | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Customer Registration</h1>
+  <form id="regForm" onsubmit="return false">
+    <section>
+      <h2>Personal details</h2>
+      <div class="row"><label for="firstName">First name</label><input id="firstName" name="firstName" required></div>
+      <div class="row"><label for="lastName">Last name</label><input id="lastName" name="lastName"></div>
+      <div class="row"><label for="email">Email</label><input id="email" name="email" placeholder="Email address">
+        <span id="focusHint" class="hidden">We never share your email</span><span id="emailError" class="error"></span></div>
+      <div class="row"><label for="phone">Phone</label><input id="phone" name="phone" maxlength="10"></div>
+      <div class="row"><label for="regPassword">Password</label><input id="regPassword" type="password" name="password"></div>
+      <div class="row"><label for="age">Age</label><input id="age" type="number" name="age"></div>
+      <div class="row"><label for="dob">Date of birth</label><input id="dob" name="dob" readonly placeholder="dd/mm/yyyy"></div>
+      <div class="row"><label for="accountId">Account ID</label><input id="accountId" value="AUTO-1001" disabled></div>
+      <div class="row"><label for="address">Address</label><textarea id="address" name="address" rows="2" cols="40"></textarea></div>
+      <div class="row"><label for="comments">Comments</label><input id="comments" name="comments" size="40"> <span id="charCount">0</span> chars</div>
+      <div class="row"><label for="selectable">Reference</label><input id="selectable" value="REF-2026-XYZ"></div>
+    </section>
+
+    <section>
+      <h2>Choices</h2>
+      <div class="row" id="genderGroup"><label>Gender</label>
+        <input type="radio" name="gender" value="male" id="genderMale"><label for="genderMale" style="min-width:0">Male</label>
+        <input type="radio" name="gender" value="female" id="genderFemale"><label for="genderFemale" style="min-width:0">Female</label>
+        <input type="radio" name="gender" value="other" id="genderOther"><label for="genderOther" style="min-width:0">Other</label>
+      </div>
+      <div class="row" id="hobbies"><label>Hobbies</label>
+        <input type="checkbox" id="hobbyReading" value="reading" class="hobby"> Reading
+        <input type="checkbox" id="hobbySports" value="sports" class="hobby"> Sports
+        <input type="checkbox" id="hobbyMusic" value="music" class="hobby" checked> Music
+      </div>
+      <div class="row"><label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="">-- Select country --</option>
+          <option value="IN">India</option><option value="UK">United Kingdom</option>
+          <option value="US">United States</option><option value="DE">Germany</option><option value="AE">United Arab Emirates</option>
+        </select></div>
+      <div class="row"><label for="skills">Skills</label>
+        <select id="skills" name="skills" multiple size="4">
+          <option value="java">Java</option><option value="ts">TypeScript</option><option value="py">Python</option><option value="sql">SQL</option>
+        </select></div>
+      <div class="row"><label>Line of business</label>
+        <div id="lobDropdown" class="combo" role="combobox" aria-label="Line of business" aria-expanded="false" tabindex="0">Select line of business</div>
+        <ul id="lobOptions" class="listbox hidden" role="listbox">
+          <li role="option" data-value="CAS">Casualty</li><li role="option" data-value="PRO">Property</li>
+          <li role="option" data-value="MOT">Motor</li><li role="option" data-value="MAR">Marine</li><li role="option" data-value="BMA">British Marine</li>
+        </ul>
+      </div>
+      <div class="row"><label for="city">City</label><input id="city" autocomplete="off" placeholder="Start typing a city">
+        <ul id="citySuggestions" class="listbox hidden" role="listbox"></ul></div>
+      <div class="row"><label for="rating">Rating</label><input id="rating" type="range" min="0" max="10" value="5"> <span id="ratingValue">5</span></div>
+      <div class="row"><label><input type="checkbox" id="terms"> I accept the terms and conditions</label></div>
+    </section>
+
+    <section>
+      <h2>Documents</h2>
+      <div class="row"><label for="resume">Upload files</label><input type="file" id="resume" multiple></div>
+      <div class="row"><button type="button" id="chooseFileBtn">Choose file…</button><input type="file" id="hiddenFile" style="display:none"></div>
+      <p>Selected: <span id="fileList">none</span></p>
+    </section>
+
+    <section>
+      <h2>Search</h2>
+      <input id="searchBox" placeholder="Search policies"> <span id="searchResult"></span>
+    </section>
+
+    <button type="submit" id="submitBtn" data-testid="submit-registration" disabled>Register</button>
+    <button type="reset" id="resetBtn" style="background:#64748b">Reset</button>
+  </form>
+  <p id="successMsg" class="success" role="status"></p>
+  <pre id="result"></pre>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  // email focus / blur validation
+  $('email').addEventListener('focus', () => $('focusHint').classList.remove('hidden'));
+  $('email').addEventListener('blur', () => {
+    $('focusHint').classList.add('hidden');
+    $('emailError').textContent = $('email').value && !/^\S+@\S+\.\S+$/.test($('email').value) ? 'Invalid email' : '';
+  });
+  $('comments').addEventListener('input', () => ($('charCount').textContent = $('comments').value.length));
+  $('rating').addEventListener('input', () => ($('ratingValue').textContent = $('rating').value));
+  $('terms').addEventListener('change', () => ($('submitBtn').disabled = !$('terms').checked));
+  $('searchBox').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('searchResult').textContent = 'Searched: ' + $('searchBox').value; });
+
+  // custom dropdown
+  const lob = $('lobDropdown'), lobList = $('lobOptions');
+  const closeLob = () => { lobList.classList.add('hidden'); lob.setAttribute('aria-expanded', 'false'); };
+  lob.addEventListener('click', () => { lobList.classList.toggle('hidden'); lob.setAttribute('aria-expanded', String(!lobList.classList.contains('hidden'))); });
+  lobList.querySelectorAll('li').forEach((li) => li.addEventListener('click', () => { lob.textContent = li.textContent; lob.dataset.value = li.dataset.value; closeLob(); }));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLob(); });
+
+  // auto-suggest with keyboard navigation
+  const cities = ['Gurugram', 'Goa', 'Glasgow', 'London', 'Leeds', 'Liverpool', 'Mumbai', 'Manchester'];
+  const city = $('city'), sug = $('citySuggestions');
+  let active = -1;
+  const render = () => {
+    const q = city.value.toLowerCase();
+    const matches = q ? cities.filter((c) => c.toLowerCase().startsWith(q)) : [];
+    active = -1;
+    sug.innerHTML = matches.map((c) => `<li role="option">${c}</li>`).join('');
+    sug.classList.toggle('hidden', !matches.length);
+    sug.querySelectorAll('li').forEach((li) => li.addEventListener('click', () => pick(li.textContent)));
+  };
+  const pick = (v) => { city.value = v; sug.classList.add('hidden'); sug.innerHTML = ''; };
+  let debounce;
+  city.addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(render, 150); });
+  city.addEventListener('keydown', (e) => {
+    const items = [...sug.querySelectorAll('li')];
+    if (e.key === 'ArrowDown' && items.length) { active = Math.min(active + 1, items.length - 1); items.forEach((li, i) => (li.style.background = i === active ? '#cfe0ff' : '')); e.preventDefault(); }
+    if (e.key === 'Enter' && active >= 0) { pick(items[active].textContent); e.preventDefault(); }
+  });
+
+  // files
+  const showFiles = (input) => ($('fileList').textContent = [...input.files].map((f) => f.name).join(', ') || 'none');
+  $('resume').addEventListener('change', () => showFiles($('resume')));
+  $('hiddenFile').addEventListener('change', () => showFiles($('hiddenFile')));
+  $('chooseFileBtn').addEventListener('click', () => $('hiddenFile').click());
+
+  // submit
+  $('regForm').addEventListener('submit', () => {
+    if (!$('firstName').value) { $('successMsg').textContent = ''; $('successMsg').className = 'error'; $('successMsg').textContent = 'First name is required'; return; }
+    const data = {
+      firstName: $('firstName').value, lastName: $('lastName').value, email: $('email').value, phone: $('phone').value,
+      age: $('age').value, dob: $('dob').value, address: $('address').value,
+      gender: (document.querySelector('input[name=gender]:checked') || {}).value || '',
+      hobbies: [...document.querySelectorAll('.hobby:checked')].map((c) => c.value),
+      country: $('country').value, skills: [...$('skills').selectedOptions].map((o) => o.value),
+      lob: lob.dataset.value || '', city: $('city').value, rating: $('rating').value,
+    };
+    $('successMsg').className = 'success';
+    $('successMsg').textContent = 'Registration successful for ' + data.firstName + ' ' + data.lastName;
+    $('result').textContent = JSON.stringify(data, null, 2);
+  });
+</script>
+</body></html>

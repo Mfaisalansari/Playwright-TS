@@ -1,0 +1,8 @@
+{
+  "employees":  { "strategy": "id", "value": "employees" },
+  "search":     { "strategy": "id", "value": "tableSearch" },
+  "rowCount":   { "strategy": "id", "value": "rowCount" },
+  "actionMsg":  { "strategy": "id", "value": "actionMsg" },
+  "rowByName":  { "strategy": "xpath", "value": "//table[@id='employees']//tr[td[1][normalize-space()='{name}']]" },
+  "nameCells":  { "strategy": "css", "value": "#employees tbody tr td:first-child" }
+}

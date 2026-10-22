@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Alerts | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>JavaScript Dialogs</h1>
+  <section>
+    <button id="alertBtn">Show Alert</button>
+    <button id="confirmBtn">Show Confirm</button>
+    <button id="promptBtn">Show Prompt</button>
+    <button id="delayedAlertBtn">Alert after 1s</button>
+    <button id="doubleAlertBtn">Two alerts</button>
+    <p>Result: <span id="dialogResult"></span></p>
+  </section>
+</main>
+<script>
+  const out = document.getElementById('dialogResult');
+  document.getElementById('alertBtn').onclick = () => { alert('This is a simple alert'); out.textContent = 'Alert closed'; };
+  document.getElementById('confirmBtn').onclick = () => { out.textContent = confirm('Do you want to proceed?') ? 'You pressed OK' : 'You pressed Cancel'; };
+  document.getElementById('promptBtn').onclick = () => { const v = prompt('Enter your name', 'Guest'); out.textContent = v === null ? 'Prompt cancelled' : 'Hello, ' + v; };
+  document.getElementById('delayedAlertBtn').onclick = () => setTimeout(() => { alert('Delayed alert'); out.textContent = 'Delayed alert closed'; }, 1000);
+  document.getElementById('doubleAlertBtn').onclick = () => { alert('First alert'); alert('Second alert'); out.textContent = 'Both alerts closed'; };
+</script>
+</body></html>

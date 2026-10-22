@@ -1,0 +1,116 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Interactions | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Mouse &amp; Keyboard Interactions</h1>
+
+  <section><h2>Clicks</h2>
+    <button id="clickBtn">Click me</button> clicks: <span id="clickCount">0</span><br>
+    <button id="dblClickBtn">Double-click me</button> <span id="dblResult"></span><br>
+    <div id="contextArea" class="box" style="width:220px">Right-click here</div>
+    <div id="contextMenu" class="hidden"><a href="#" id="ctxCopy">Copy policy</a></div>
+    <span id="contextResult"></span><br>
+    <button id="modifierBtn">Shift+click me</button> <span id="modifierResult"></span><br>
+    <button id="movingBtn">Pulsing button</button> <span id="movingResult"></span><br>
+    <span class="covered-wrap"><button id="coveredBtn">Covered button</button><span id="overlayDiv"></span></span> <span id="coveredResult"></span><br>
+    <button id="dispatchBtn">Dispatch target</button> <span id="dispatchResult"></span><br>
+    <button id="tapBtn">Tap me</button> <span id="tapResult"></span><br>
+    <button id="saveBtn" title="Save changes">💾</button> <img alt="Company logo" id="logo" width="40" height="40"
+      src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='%232563eb'/></svg>">
+    <span id="saveResult"></span>
+  </section>
+
+  <section><h2>Hover</h2>
+    <div class="hover-menu" id="hoverMenu"><button>Products ▾</button>
+      <div class="submenu" id="hoverSubmenu"><a href="#" id="submenuMotor">Motor insurance</a></div></div>
+    <span id="tooltipTarget" title="Premium includes IPT">ⓘ Premium</span>
+  </section>
+
+  <section><h2>Drag and drop</h2>
+    <div id="draggable" class="box drag" draggable="true">Drag me</div>
+    <div id="dropZone" class="box">Drop here</div>
+    <div id="mouseDragBox" class="box drag" style="position:relative">Mouse drag</div>
+    <div id="mouseDropZone" class="box">Mouse drop zone</div>
+    <div id="sliderTrack"><div id="sliderHandle"></div></div> Value: <span id="sliderValue">0</span>
+  </section>
+
+  <section><h2>Keyboard</h2>
+    <input id="keyInput" placeholder="Press keys here"> Last key: <span id="lastKey"></span> Combo: <span id="lastCombo"></span><br>
+    <textarea id="notes" rows="2" cols="40"></textarea><br>
+    <button id="copyBtn">Copy reference to clipboard</button> <span id="copyResult"></span>
+  </section>
+
+  <section><h2>Canvas / coordinates</h2>
+    <canvas id="signature" width="300" height="120" style="border:1px solid #333;background:#fff"></canvas>
+    Strokes: <span id="strokeCount">0</span> Last click: <span id="coords"></span>
+  </section>
+
+  <section><h2>Scrolling</h2>
+    <div id="scrollContainer"></div>
+    <p>Infinite list (loads more at page bottom): <span id="loadedCount">10</span> items</p>
+    <ul id="infiniteList"></ul>
+    <p id="bottomMarker">End of page marker</p>
+  </section>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  let clicks = 0;
+  $('clickBtn').onclick = () => ($('clickCount').textContent = ++clicks);
+  $('dblClickBtn').ondblclick = () => ($('dblResult').textContent = 'Double clicked');
+  $('contextArea').oncontextmenu = (e) => { e.preventDefault(); const m = $('contextMenu'); m.classList.remove('hidden'); m.style.left = e.pageX + 'px'; m.style.top = e.pageY + 'px'; };
+  $('ctxCopy').onclick = (e) => { e.preventDefault(); $('contextMenu').classList.add('hidden'); $('contextResult').textContent = 'Copied from context menu'; };
+  $('modifierBtn').onclick = (e) => ($('modifierResult').textContent = e.shiftKey ? 'Shift-click detected' : 'Plain click');
+  $('movingBtn').onclick = () => ($('movingResult').textContent = 'Moving button clicked');
+  $('coveredBtn').onclick = () => ($('coveredResult').textContent = 'Covered button clicked');
+  $('dispatchBtn').addEventListener('click', () => ($('dispatchResult').textContent = 'Event dispatched'));
+  $('tapBtn').addEventListener('touchstart', () => ($('tapResult').textContent = 'Tapped'));
+  $('saveBtn').onclick = () => ($('saveResult').textContent = 'Saved');
+  $('submenuMotor').onclick = (e) => { e.preventDefault(); $('submenuMotor').textContent = 'Motor selected'; };
+
+  // HTML5 drag & drop
+  $('draggable').addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', 'draggable'));
+  $('dropZone').addEventListener('dragover', (e) => e.preventDefault());
+  $('dropZone').addEventListener('drop', (e) => { e.preventDefault(); $('dropZone').textContent = 'Dropped!'; });
+
+  // mouse-event based drag
+  let mDrag = false;
+  $('mouseDragBox').addEventListener('mousedown', () => (mDrag = true));
+  document.addEventListener('mouseup', (e) => {
+    if (!mDrag) return; mDrag = false;
+    const r = $('mouseDropZone').getBoundingClientRect();
+    if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) $('mouseDropZone').textContent = 'Mouse dropped!';
+  });
+
+  // custom slider
+  let sDrag = false;
+  $('sliderHandle').addEventListener('mousedown', () => (sDrag = true));
+  document.addEventListener('mouseup', () => (sDrag = false));
+  document.addEventListener('mousemove', (e) => {
+    if (!sDrag) return;
+    const t = $('sliderTrack').getBoundingClientRect();
+    const x = Math.max(0, Math.min(e.clientX - t.left, t.width));
+    $('sliderHandle').style.left = (x - 12) + 'px';
+    $('sliderValue').textContent = Math.round((x / t.width) * 100);
+  });
+
+  // keyboard
+  $('keyInput').addEventListener('keydown', (e) => {
+    $('lastKey').textContent = e.key;
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); $('lastCombo').textContent = 'Save shortcut'; }
+  });
+  $('copyBtn').onclick = async () => { await navigator.clipboard.writeText('REF-CLIP-001'); $('copyResult').textContent = 'Copied'; };
+
+  // canvas
+  const cv = $('signature'), ctx = cv.getContext('2d'); let drawing = false, strokes = 0;
+  cv.addEventListener('mousedown', (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+  cv.addEventListener('mousemove', (e) => { if (drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
+  cv.addEventListener('mouseup', () => { if (drawing) { drawing = false; $('strokeCount').textContent = ++strokes; } });
+  document.addEventListener('click', (e) => ($('coords').textContent = e.clientX + ',' + e.clientY));
+
+  // scrolling
+  $('scrollContainer').innerHTML = Array.from({ length: 40 }, (_, i) => `<div class="scroll-item" style="padding:4px">Item ${i + 1}</div>`).join('');
+  let loaded = 0;
+  const addItems = (n) => { for (let i = 0; i < n; i++) { const li = document.createElement('li'); li.style.height = '60px'; li.textContent = 'Record ' + (++loaded); $('infiniteList').appendChild(li); } $('loadedCount').textContent = loaded; };
+  addItems(10);
+  window.addEventListener('scroll', () => { if (loaded < 40 && window.innerHeight + window.scrollY >= document.body.scrollHeight - 5) addItems(10); });
+</script>
+</body></html>

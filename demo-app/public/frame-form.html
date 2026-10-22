@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Frame Form</title><link rel="stylesheet" href="/style.css"></head>
+<body style="padding:10px">
+  <label for="frameName">Policy holder</label><input id="frameName">
+  <select id="frameCover"><option value="">Cover</option><option value="basic">Basic</option><option value="premium">Premium</option></select>
+  <button id="frameSubmit">Save in frame</button>
+  <p id="frameResult"></p>
+  <script>
+    document.getElementById('frameSubmit').onclick = () => {
+      document.getElementById('frameResult').textContent =
+        'Saved ' + document.getElementById('frameName').value + ' with ' + document.getElementById('frameCover').value + ' cover';
+    };
+  </script>
+</body></html>

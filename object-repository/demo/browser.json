@@ -1,0 +1,15 @@
+{
+  "getLocation":  { "strategy": "id", "value": "getLocation" },
+  "location":     { "strategy": "id", "value": "location" },
+  "checkOnline":  { "strategy": "id", "value": "checkOnline" },
+  "onlineStatus": { "strategy": "id", "value": "onlineStatus" },
+  "theme":        { "strategy": "id", "value": "theme" },
+  "readViewport": { "strategy": "id", "value": "readViewport" },
+  "viewport":     { "strategy": "id", "value": "viewport" },
+  "readCookie":   { "strategy": "id", "value": "readCookie" },
+  "cookieValue":  { "strategy": "id", "value": "cookieValue" },
+  "callSecure":   { "strategy": "id", "value": "callSecure" },
+  "secureResult": { "strategy": "id", "value": "secureResult" },
+  "logError":     { "strategy": "id", "value": "logError" },
+  "footer":       { "strategy": "id", "value": "pageFooter" }
+}

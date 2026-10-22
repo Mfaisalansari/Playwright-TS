@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Browser Features | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Browser Features</h1>
+  <section>
+    <button id="getLocation">Get my location</button> <span id="location"></span><br>
+    <button id="checkOnline">Check connection</button> <span id="onlineStatus"></span><br>
+    Theme: <span id="theme"></span><br>
+    Viewport: <span id="viewport"></span> <button id="readViewport">Read viewport</button><br>
+    <button id="readCookie">Read cookies</button> <span id="cookieValue"></span><br>
+    <button id="callSecure">Call secure API</button> <span id="secureResult"></span><br>
+    <button id="logError">Throw console error</button>
+  </section>
+  <section style="height:1600px">Tall content to make the page scroll.</section>
+  <p id="pageFooter">Footer</p>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  $('getLocation').onclick = () => navigator.geolocation.getCurrentPosition(
+    (p) => ($('location').textContent = p.coords.latitude.toFixed(4) + ',' + p.coords.longitude.toFixed(4)),
+    () => ($('location').textContent = 'Location denied'));
+  $('checkOnline').onclick = async () => {
+    try { await fetch('/health', { cache: 'no-store' }); $('onlineStatus').textContent = 'Online'; } catch { $('onlineStatus').textContent = 'Offline'; }
+  };
+  $('theme').textContent = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => ($('theme').textContent = e.matches ? 'dark' : 'light'));
+  $('readViewport').onclick = () => ($('viewport').textContent = innerWidth + 'x' + innerHeight);
+  $('readCookie').onclick = () => ($('cookieValue').textContent = document.cookie);
+  $('callSecure').onclick = async () => { const r = await fetch('/api/secure'); $('secureResult').textContent = r.status === 200 ? 'Authorised' : 'Unauthorised'; };
+  $('logError').onclick = () => console.error('Simulated application error');
+</script>
+</body></html>

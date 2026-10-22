@@ -1,0 +1,5 @@
+TestCaseID,Description,FirstName,LastName,Email,Gender,Country,LineOfBusiness,City,Execute
+REG_01,Underwriter from India,Faisal,Ansari,faisal.qa@demo.test,male,India,Marine,Gurugram,Y
+REG_02,Broker from UK,Emma,Brown,{{random.email}},female,United Kingdom,Property,London,Y
+REG_03,Random customer,{{random.firstName}},{{random.lastName}},{{random.email}},other,Germany,Motor,Manchester,Y
+REG_04,Disabled row,X,Y,x@y.z,male,India,Motor,Goa,N

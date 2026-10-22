@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Windows | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Tabs and Windows</h1>
+  <section>
+    <a id="newTabLink" href="/child.html" target="_blank">Open policy in new tab</a><br><br>
+    <button id="popupBtn">Open popup window</button>
+    <button id="multiTabBtn">Open two tabs</button>
+    <p id="popupMessage"></p>
+  </section>
+</main>
+<script>
+  document.getElementById('popupBtn').onclick = () => window.open('/popup.html', 'popupWin', 'width=600,height=400');
+  document.getElementById('multiTabBtn').onclick = () => { window.open('/child.html?tab=1', '_blank'); window.open('/child.html?tab=2', '_blank'); };
+  window.addEventListener('message', (e) => (document.getElementById('popupMessage').textContent = 'Popup sent: ' + e.data));
+</script>
+</body></html>

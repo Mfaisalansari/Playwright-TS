@@ -1,0 +1,6 @@
+{
+  "csvLink":       { "strategy": "id", "value": "downloadCsv" },
+  "txtLink":       { "strategy": "text", "value": "Download notes (TXT)" },
+  "acceptCookies": { "strategy": "role", "value": "button", "options": { "name": "Accept" } },
+  "cookieBanner":  { "strategy": "id", "value": "cookieBanner" }
+}

@@ -1,0 +1,8 @@
+{
+  "alertBtn":        { "strategy": "role", "value": "button", "options": { "name": "Show Alert" } },
+  "confirmBtn":      { "strategy": "role", "value": "button", "options": { "name": "Show Confirm" } },
+  "promptBtn":       { "strategy": "role", "value": "button", "options": { "name": "Show Prompt" } },
+  "delayedAlertBtn": { "strategy": "id", "value": "delayedAlertBtn" },
+  "doubleAlertBtn":  { "strategy": "id", "value": "doubleAlertBtn" },
+  "result":          { "strategy": "id", "value": "dialogResult" }
+}

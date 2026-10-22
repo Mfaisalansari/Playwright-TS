@@ -1,0 +1,43 @@
+{
+  "name": "playwright-ts-framework",
+  "version": "1.0.0",
+  "description": "Enterprise-style Playwright + TypeScript test automation framework",
+  "private": true,
+  "scripts": {
+    "test": "playwright test --project=chromium --project=api --project=demo",
+    "test:demo": "playwright test --project=demo",
+    "demo:start": "node demo-app/server.js",
+    "coverage:functions": "ts-node scripts/functionCoverage.ts",
+    "test:all-browsers": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:api": "playwright test tests/api",
+    "test:debug": "playwright test --debug",
+    "test:qa": "cross-env TEST_ENV=qa playwright test",
+    "test:uat": "cross-env TEST_ENV=uat playwright test",
+    "report": "playwright show-report reports/html",
+    "codegen": "playwright codegen",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "generate:testdata": "ts-node scripts/generateSampleExcel.ts",
+    "clean": "rimraf reports test-results logs downloads"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.0.0",
+    "cross-env": "^7.0.3",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.5.1",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0",
+    "winston": "^3.14.2"
+  }
+}

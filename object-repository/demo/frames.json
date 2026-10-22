@@ -1,0 +1,7 @@
+{
+  "formFrameName":   { "strategy": "label", "value": "Policy holder", "frames": ["#formFrame"] },
+  "formFrameCover":  { "strategy": "id", "value": "frameCover", "frames": ["#formFrame"] },
+  "formFrameSave":   { "strategy": "role", "value": "button", "options": { "name": "Save in frame" }, "frames": ["#formFrame"] },
+  "formFrameResult": { "strategy": "id", "value": "frameResult", "frames": ["#formFrame"] },
+  "innerHeading":    { "strategy": "id", "value": "innerHeading", "frames": ["#outerFrame", "#innerFrame"] }
+}

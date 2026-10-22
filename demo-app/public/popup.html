@@ -1,0 +1,13 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Popup Window</title><link rel="stylesheet" href="/style.css"></head>
+<body style="padding:16px">
+  <h2 id="popupHeading">Approve quote</h2>
+  <input id="popupInput" placeholder="Approver note">
+  <button id="popupSend">Send and close</button>
+  <script>
+    document.getElementById('popupSend').onclick = () => {
+      window.opener && window.opener.postMessage(document.getElementById('popupInput').value, '*');
+      window.close();
+    };
+  </script>
+</body></html>

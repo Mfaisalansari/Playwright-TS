@@ -1,0 +1,6 @@
+TestCaseID,Description,Username,Password,ExpectedMessage,Execute
+TC_LOGIN_01,Valid credentials,tomsmith,SuperSecretPassword!,You logged into a secure area!,Y
+TC_LOGIN_02,Invalid username,wronguser,SuperSecretPassword!,Your username is invalid!,Y
+TC_LOGIN_03,Invalid password,tomsmith,badpassword,Your password is invalid!,Y
+TC_LOGIN_04,Blank username,,SuperSecretPassword!,Your username is invalid!,Y
+TC_LOGIN_05,Skipped example,tomsmith,x,n/a,N

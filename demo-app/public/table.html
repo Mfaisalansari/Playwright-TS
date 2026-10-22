@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Employees | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Employees</h1>
+  <section>
+    <input id="tableSearch" placeholder="Filter by name or department">
+    <span>Rows: <strong id="rowCount"></strong></span>
+    <p id="actionMsg"></p>
+    <table id="employees">
+      <thead><tr><th data-col="0">Name</th><th data-col="1">Department</th><th data-col="2">Salary</th><th data-col="3">Email</th><th>Actions</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+<script>
+  let rows = [
+    ['Zara Ahmed', 'Underwriting', 72000, 'zara@demo.test'],
+    ['Mohit Sharma', 'Claims', 58000, 'mohit@demo.test'],
+    ['Emma Brown', 'Finance', 81000, 'emma@demo.test'],
+    ['Faisal Ansari', 'QA', 90000, 'faisal@demo.test'],
+    ['Liam Wilson', 'Claims', 61000, 'liam@demo.test'],
+    ['Aditi Rao', 'Underwriting', 67000, 'aditi@demo.test'],
+  ];
+  const sortDir = {};
+  const tbody = document.querySelector('#employees tbody');
+  function draw() {
+    const q = document.getElementById('tableSearch').value.toLowerCase();
+    const shown = rows.filter((r) => !q || r[0].toLowerCase().includes(q) || r[1].toLowerCase().includes(q));
+    tbody.innerHTML = shown.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td>
+      <td><button class="edit-btn">Edit</button> <button class="delete-btn" style="background:#b91c1c">Delete</button></td></tr>`).join('');
+    document.getElementById('rowCount').textContent = shown.length;
+    tbody.querySelectorAll('.edit-btn').forEach((b) => (b.onclick = () => (document.getElementById('actionMsg').textContent = 'Editing ' + b.closest('tr').cells[0].textContent)));
+    tbody.querySelectorAll('.delete-btn').forEach((b) => (b.onclick = () => {
+      const name = b.closest('tr').cells[0].textContent;
+      if (confirm('Delete ' + name + '?')) { rows = rows.filter((r) => r[0] !== name); document.getElementById('actionMsg').textContent = 'Deleted ' + name; draw(); }
+    }));
+  }
+  document.querySelectorAll('th[data-col]').forEach((th) => (th.onclick = () => {
+    const c = Number(th.dataset.col);
+    sortDir[c] = sortDir[c] === 'asc' ? 'desc' : 'asc';
+    rows.sort((a, b) => (typeof a[c] === 'number' ? a[c] - b[c] : String(a[c]).localeCompare(String(b[c]))) * (sortDir[c] === 'asc' ? 1 : -1));
+    draw();
+  }));
+  document.getElementById('tableSearch').addEventListener('input', draw);
+  draw();
+</script>
+</body></html>

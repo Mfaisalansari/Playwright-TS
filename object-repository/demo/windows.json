@@ -1,0 +1,10 @@
+{
+  "newTabLink":   { "strategy": "role", "value": "link", "options": { "name": "Open policy in new tab" } },
+  "popupBtn":     { "strategy": "id", "value": "popupBtn" },
+  "multiTabBtn":  { "strategy": "id", "value": "multiTabBtn" },
+  "popupMessage": { "strategy": "id", "value": "popupMessage" },
+  "childHeading": { "strategy": "id", "value": "childHeading" },
+  "policyNo":     { "strategy": "id", "value": "policyNo" },
+  "popupInput":   { "strategy": "id", "value": "popupInput" },
+  "popupSend":    { "strategy": "id", "value": "popupSend" }
+}

@@ -1,0 +1,12 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Inner Frame</title><link rel="stylesheet" href="/style.css"></head>
+<body style="padding:10px">
+  <h3 id="innerHeading">Inner Frame</h3>
+  <input id="innerInput" placeholder="Type inside nested frame">
+  <button id="innerBtn">Submit inner</button>
+  <p id="innerResult"></p>
+  <script>
+    document.getElementById('innerBtn').onclick = () =>
+      (document.getElementById('innerResult').textContent = 'Inner value: ' + document.getElementById('innerInput').value);
+  </script>
+</body></html>

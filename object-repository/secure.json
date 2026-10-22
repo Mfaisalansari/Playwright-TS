@@ -1,0 +1,4 @@
+{
+  "heading":      { "strategy": "css", "value": "h2", "description": "Secure area heading" },
+  "logoutButton": { "strategy": "role", "value": "link", "options": { "name": "Logout" }, "description": "Logout link" }
+}

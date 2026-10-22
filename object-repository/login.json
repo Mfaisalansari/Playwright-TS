@@ -1,0 +1,8 @@
+{
+  "username":     { "strategy": "id", "value": "username", "description": "Username textbox",
+                    "fallbacks": [ { "strategy": "label", "value": "Username" } ] },
+  "password":     { "strategy": "css", "value": "#password", "description": "Password textbox" },
+  "loginButton":  { "strategy": "role", "value": "button", "options": { "name": "Login" }, "description": "Login button",
+                    "fallbacks": [ { "strategy": "xpath", "value": "//button[@type='submit']" } ] },
+  "flashMessage": { "strategy": "css", "value": "#flash", "description": "Login result banner" }
+}

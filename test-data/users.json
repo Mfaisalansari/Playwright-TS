@@ -1,0 +1,12 @@
+{
+  "validUser":   { "username": "tomsmith", "password": "SuperSecretPassword!" },
+  "invalidUser": { "username": "invalid_{{random.alphanumeric}}", "password": "wrong" },
+  "newCustomer": {
+    "firstName": "{{random.firstName}}",
+    "lastName": "{{random.lastName}}",
+    "email": "{{random.email}}",
+    "policyRef": "{{random.reference:POL}}",
+    "inceptionDate": "{{today}}",
+    "expiryDate": "{{date:+1y}}"
+  }
+}

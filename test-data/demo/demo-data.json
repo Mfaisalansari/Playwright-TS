@@ -1,0 +1,22 @@
+{
+  "users": {
+    "admin":   { "username": "admin", "password": "Admin@123" },
+    "invalid": { "username": "admin", "password": "wrong-{{random.alphanumeric}}" }
+  },
+  "registration": {
+    "firstName": "{{random.firstName}}",
+    "lastName": "{{random.lastName}}",
+    "email": "{{random.email}}",
+    "phone": "{{random.phone}}",
+    "age": "35",
+    "dob": "{{date:-35y}}",
+    "address": "221B Baker Street, London",
+    "gender": "female",
+    "hobbies": ["Reading", "Sports"],
+    "country": "United Kingdom",
+    "skills": ["Java", "TypeScript"],
+    "lineOfBusiness": "British Marine",
+    "city": "Glasgow"
+  },
+  "apiUser": { "name": "{{random.fullName}}", "email": "{{random.email}}", "role": "Underwriter" }
+}

@@ -1,0 +1,10 @@
+{
+  "username":    { "strategy": "label", "value": "Username", "description": "Username field",
+                   "fallbacks": [ { "strategy": "id", "value": "username" } ] },
+  "password":    { "strategy": "placeholder", "value": "Enter password", "description": "Password field" },
+  "rememberMe":  { "strategy": "id", "value": "rememberMe" },
+  "loginButton": { "strategy": "testid", "value": "login-submit", "description": "Login button" },
+  "error":       { "strategy": "role", "value": "alert", "description": "Login error message" },
+  "brokenUsername": { "strategy": "css", "value": "#user-name-old", "description": "Outdated locator - heals via fallback",
+                   "fallbacks": [ { "strategy": "name", "value": "username" } ] }
+}

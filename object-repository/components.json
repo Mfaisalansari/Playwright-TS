@@ -1,0 +1,21 @@
+{
+  "dropdown":        { "strategy": "id", "value": "dropdown", "description": "Native select on /dropdown" },
+  "checkboxByIndex": { "strategy": "xpath", "value": "(//form[@id='checkboxes']/input)[{index}]", "description": "Parameterised checkbox (1-based)" },
+  "jsAlertBtn":      { "strategy": "role", "value": "button", "options": { "name": "Click for JS Alert" } },
+  "jsConfirmBtn":    { "strategy": "role", "value": "button", "options": { "name": "Click for JS Confirm" } },
+  "jsPromptBtn":     { "strategy": "role", "value": "button", "options": { "name": "Click for JS Prompt" } },
+  "alertResult":     { "strategy": "id", "value": "result" },
+  "newWindowLink":   { "strategy": "text", "value": "Click Here", "options": { "exact": true } },
+  "newWindowHeading":{ "strategy": "css", "value": "h3" },
+  "editorBody":      { "strategy": "css", "value": "body", "frames": ["#mce_0_ifr"], "description": "TinyMCE body inside iframe" },
+  "fileInput":       { "strategy": "id", "value": "file-upload" },
+  "fileSubmit":      { "strategy": "id", "value": "file-submit" },
+  "uploadedFiles":   { "strategy": "id", "value": "uploaded-files" },
+  "columnA":         { "strategy": "id", "value": "column-a" },
+  "columnB":         { "strategy": "id", "value": "column-b" },
+  "hoverFigure":     { "strategy": "css", "value": ".figure", "nth": 0 },
+  "hoverCaption":    { "strategy": "css", "value": ".figcaption", "nth": 0 },
+  "table1":          { "strategy": "id", "value": "table1" },
+  "keyInput":        { "strategy": "id", "value": "target" },
+  "keyResult":       { "strategy": "id", "value": "result" }
+}

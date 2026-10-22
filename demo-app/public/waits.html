@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Waits | QA Demo App</title><link rel="stylesheet" href="/style.css"><script src="/nav.js"></script></head>
+<body><main>
+  <h1>Dynamic Content &amp; Waits</h1>
+  <section>
+    <button id="startLoading">Load data</button> <div id="spinner" class="hidden"></div>
+    <p id="loadedContent" class="hidden">Data loaded successfully</p>
+  </section>
+  <section>
+    <button id="enableLater">Enable button in 1s</button> <button id="delayedBtn" disabled>Delayed action</button> <span id="delayedResult"></span>
+  </section>
+  <section>
+    <button id="changeStatus">Process</button> Status: <span id="status" data-state="idle">Idle</span>
+  </section>
+  <section>
+    <button id="addItems">Add 5 items</button> <ul id="itemList"></ul>
+  </section>
+  <section>
+    <button id="removeElement">Remove banner</button> <p id="toRemove">Temporary banner</p>
+    <button id="attachElement">Attach element</button> <div id="lateContainer"></div>
+    <button id="hideElement">Hide notice</button> <p id="notice">Visible notice</p>
+  </section>
+  <section>
+    <button id="fillValue">Auto-fill</button> <input id="autoValue">
+    <button id="changeTitle">Change title</button>
+    <button id="changeUrl">Go to step 2</button>
+    <button id="setReady">Mark app ready</button>
+  </section>
+  <section>
+    <h2>Network</h2>
+    <button id="loadUsers">Load users</button> <button id="slowBtn">Slow request</button>
+    <p id="networkStatus"></p>
+    <ul id="userList"></ul>
+  </section>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const later = (fn, ms = 1000) => setTimeout(fn, ms);
+  $('startLoading').onclick = () => { $('spinner').classList.remove('hidden'); $('loadedContent').classList.add('hidden'); later(() => { $('spinner').classList.add('hidden'); $('loadedContent').classList.remove('hidden'); }, 1500); };
+  $('enableLater').onclick = () => later(() => ($('delayedBtn').disabled = false));
+  $('delayedBtn').onclick = () => ($('delayedResult').textContent = 'Delayed action done');
+  $('changeStatus').onclick = () => { $('status').textContent = 'Processing...'; later(() => { $('status').textContent = 'Completed'; $('status').dataset.state = 'done'; }); };
+  $('addItems').onclick = () => later(() => { for (let i = 1; i <= 5; i++) { const li = document.createElement('li'); li.className = 'item'; li.textContent = 'Item ' + i; $('itemList').appendChild(li); } });
+  $('removeElement').onclick = () => later(() => $('toRemove').remove());
+  $('attachElement').onclick = () => later(() => ($('lateContainer').innerHTML = '<p id="lateElement">I arrived late</p>'));
+  $('hideElement').onclick = () => later(() => ($('notice').style.display = 'none'));
+  $('fillValue').onclick = () => later(() => ($('autoValue').value = 'AUTO-123'));
+  $('changeTitle').onclick = () => later(() => (document.title = 'Updated Title | QA Demo App'));
+  $('changeUrl').onclick = () => later(() => history.pushState({}, '', '/waits.html?step=2'));
+  $('setReady').onclick = () => later(() => (window.appReady = true));
+  $('loadUsers').onclick = async () => {
+    $('networkStatus').textContent = 'Loading...'; $('userList').innerHTML = '';
+    try {
+      const res = await fetch('/api/users');
+      const users = await res.json();
+      $('userList').innerHTML = users.map((u) => `<li class="user">${u.name} - ${u.role}</li>`).join('');
+      $('networkStatus').textContent = 'Loaded ' + users.length + ' users';
+    } catch { $('networkStatus').textContent = 'Failed to load users'; }
+  };
+  $('slowBtn').onclick = async () => { const r = await (await fetch('/api/slow?ms=1200')).json(); $('networkStatus').textContent = 'Waited ' + r.waited + 'ms'; };
+</script>
+</body></html>
